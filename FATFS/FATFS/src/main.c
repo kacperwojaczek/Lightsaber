@@ -41,6 +41,7 @@
 #include <string.h>
 #include "ff.h"
 #include "SD.h"
+#include "DAC.h"
 
 //Makro umieszczaj¹ce zadany ³añcuch w przestrzeni adresowej __flash
 #define PGM_STR(X) ((const __flash char[]) { X })
@@ -84,6 +85,11 @@ int main(void)
 			udi_cdc_write_buf(" - nieznane polecenie\r\n", 22); //B³¹d
 		}
 	}
+	
+	Amplifier_init();
+	isPlaying=false;
+	PORTD_PIN0CTRL=PORT_OPC_PULLUP_gc; //W³¹czamy pullup na SW0
+	PORTD_PIN1CTRL=PORT_OPC_PULLUP_gc; //W³¹czamy pullup na SW1
 
 	SD_PORT.OUTSET=0xff;         //Ustaw ew. sygnay SS urz¹dzeñ pod³¹czonych do SPI
 	SD_PORT.DIRSET=SD_CS | F_CS | TP_CS; //Deaktywuj sygna³y CS karty SD, kontrolera TP i pamiêci FLASH (na module LCD)
@@ -98,6 +104,7 @@ int main(void)
 
 	while (1)
 	{
+		if (isPlaying == false) Snd_init(80000, 8000, false);
 		char Bufor[256];   //Bufor na odebranie linii
 		uint8_t indeks=0;
 
