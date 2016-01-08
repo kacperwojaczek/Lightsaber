@@ -104,7 +104,7 @@ int main(void)
 
 	while (1)
 	{
-		if (isPlaying == false) Snd_init(80000, 8000, false);
+		if (isPlaying == false) Snd_init(22000, 8000, false);
 		char Bufor[256];   //Bufor na odebranie linii
 		uint8_t indeks=0;
 
