@@ -50,7 +50,7 @@ ISR(DMA_CH1_vect)
 void Timer_init(uint16_t samplerate)  //Generuje zdarzenia wywo³uj¹ce konwersjê DAC i prze³¹czanie buforów
 {
 	//TCC0 - generuje zdarzenia wywo³uj¹ce konwersjê (okreœla samplerate)
-	TCC0.PER=F_CPU/(samplerate - 1); //Wygeneruj zdarzenia o odpowiedniej czêstotliwoœci
+	TCC0.PER=F_CPU/(samplerate- 1); //Wygeneruj zdarzenia o odpowiedniej czêstotliwoœci
 	TCC0.CTRLA=TC_CLKSEL_DIV1_gc;
 }
 
@@ -98,7 +98,7 @@ void Snd_init(DWORD smpsize, uint16_t bitrate, _Bool HiRes)
 
 	samplesize=smpsize;  //D³ugoœæ odtwarzanej próbki w bajtach
 	srcaddr=0;    //Adres próbki
-	ReadFile("hum.wav", srcaddr, samplebuffer, BUFFER_SIZE*2);//Zainicjuj bufor próbek w SRAM
+	ReadFile("hum.wav", srcaddr, &samplebuffer, BUFFER_SIZE*2);//Zainicjuj bufor próbek w SRAM
 	srcaddr+=BUFFER_SIZE*2;                            //Adres dalszej czêœci próbek
 
 	DMA_init();
