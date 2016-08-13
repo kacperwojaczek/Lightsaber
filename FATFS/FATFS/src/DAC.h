@@ -17,7 +17,7 @@ void Timer_init(uint16_t samplerate);
 void DAC_init();
 void ReadFile(char* name, DWORD offset, void *dst, size_t len);
 
-#define BUFFER_SIZE  512     //Wielkoœæ tymczasowego bufora na próbki (u¿yta jest dwukrotnie wiêksza)
+#define BUFFER_SIZE  1024     //Wielkoœæ tymczasowego bufora na próbki (u¿yta jest dwukrotnie wiêksza)
 
 uint8_t samplebuffer[2][BUFFER_SIZE];  //Bufor na odgrywane próbki
 DWORD srcaddr;                      //Adres próbek dŸwiêkowych

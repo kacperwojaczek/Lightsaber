@@ -30,8 +30,9 @@ ISR(DMA_CH0_vect)
 		return;
 	}
 	if(DMA_CH0_REPCNT == 1) DMA_CH0_TRFCNT=samplesize % BUFFER_SIZE;
-	ReadFile("hum.wav", srcaddr, &samplebuffer[0][0], BUFFER_SIZE);
 	srcaddr+=BUFFER_SIZE;
+	ReadFile("hum.wav", srcaddr, &samplebuffer[0][0], BUFFER_SIZE);
+	
 }
 
 ISR(DMA_CH1_vect)
@@ -43,8 +44,9 @@ ISR(DMA_CH1_vect)
 		return;
 	}
 	if(DMA_CH0_REPCNT == 1) DMA_CH0_TRFCNT=samplesize % BUFFER_SIZE;
-	ReadFile("hum.wav", srcaddr, &samplebuffer[1][0], BUFFER_SIZE);
 	srcaddr+=BUFFER_SIZE;
+	ReadFile("hum.wav", srcaddr, &samplebuffer[1][0], BUFFER_SIZE);
+	
 }
 
 void Timer_init(uint16_t samplerate)  //Generuje zdarzenia wywo³uj¹ce konwersjê DAC i prze³¹czanie buforów
