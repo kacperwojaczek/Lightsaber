@@ -99,7 +99,7 @@ int main(void)
 	PMIC.CTRL = PMIC_LOLVLEN_bm | PMIC_MEDLVLEN_bm | PMIC_HILVLEN_bm; //W³¹czamy wszystkie poziomy przerwañ (potrzebujemy tylko najni¿szy)
 	sei();
 
-	f_mount(0, &fatfs);  //Dostêp do systemu plików
+	f_mount(0, &fatfs);  //Dostêp do systemu plików//
 	sysclk_init();
 	udc_start();
 
