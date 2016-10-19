@@ -105,7 +105,7 @@ int main(void)
 
 	while (1)
 	{
-		if (isPlaying == false) Snd_init(4294967294, 20000, false); //max = +4,294,967,295	
+		if (isPlaying == false) Snd_init(20000, false); //max = +4,294,967,295	
 		char Bufor[256];   //Bufor na odebranie linii
 		uint8_t indeks=0;
 
@@ -123,7 +123,7 @@ int main(void)
 				++indeks;
 			}
 		 }
-		InterpretCommand(Bufor);  //Zdekoduj przes³ane polecenie
+		InterpretCommand(Bufor);  //Zdekoduj przes³ane polecenie 
 	}
 }
 

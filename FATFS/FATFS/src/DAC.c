@@ -62,8 +62,14 @@ void Amplifier_init()
 	PORTB.DIRSET=PIN2_bm;  //Pin DACB0 jako wyjœcie
 }
 
-void Snd_init(DWORD smpsize, uint16_t bitrate, _Bool HiRes)
+void Snd_init(uint16_t bitrate, _Bool HiRes)
 {
+	//read file size
+	//samplesize = ReadSize("hum.wav");
+	
+	//samplesize = samplesize<<1;
+	samplesize = 3000000;
+	
 	void DMA_init()
 	{
 		void DMA_CH_Cfg(DMA_CH_t *CH, uint16_t srcaddr, uint8_t repcnt)
@@ -92,13 +98,12 @@ void Snd_init(DWORD smpsize, uint16_t bitrate, _Bool HiRes)
 			}
 		}
 
-		uint16_t repcnt=(smpsize + BUFFER_SIZE) / BUFFER_SIZE;
+		uint16_t repcnt=(samplesize + BUFFER_SIZE) / BUFFER_SIZE;
 		DMA_CH_Cfg(&DMA.CH0, (uint16_t)&samplebuffer[0][0], (repcnt & 1) ? (repcnt/2+1) : (repcnt/2));      //Adres pierwszego bufora
 		DMA_CH_Cfg(&DMA.CH1, (uint16_t)&samplebuffer[1][0], repcnt/2);                                      //Adres drugiego bufora
 		DMA.CTRL=DMA_ENABLE_bm | DMA_DBUFMODE_CH01_gc;  //Odblokuj kontroler DMA, round robin, podwójne buforowanie kana³y 0 & 1
 	}
-
-	samplesize=smpsize;  //D³ugoœæ odtwarzanej próbki w bajtach
+	
 	srcaddr=0;    //Adres próbki
 	ReadFile("hum.wav", srcaddr, &samplebuffer, BUFFER_SIZE*2);//Zainicjuj bufor próbek w SRAM
 	srcaddr+=BUFFER_SIZE*2;                            //Adres dalszej czêœci próbek
@@ -109,10 +114,27 @@ void Snd_init(DWORD smpsize, uint16_t bitrate, _Bool HiRes)
 	isPlaying=true;
 }
 
+DWORD ReadSize(char* name)
+{
+	FRESULT fr;
+	FILINFO fno;
+	
+	fr = f_stat(name, &fno);
+	
+	switch(fr) 
+	{
+		case FR_OK:
+			return fno.fsize;
+			break;
+		default:
+			return 0;
+	}
+}
+
 void ReadFile(char* name, DWORD offset, void *dst, size_t len)
 {
 		FIL fdst;
-
+		
 		if(f_open(&fdst, name, FA_READ) == FR_OK)  //Otwórz plik
 		{
 			UINT zapisane;
